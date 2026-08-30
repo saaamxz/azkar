@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azkarr - الأذكار الشاملة والرقية الشرعية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* تعريف المتغيرات للوضع الداكن والفاتح */
+        :root {
+            --bg-color: #0d0b14;
+            --text-color: #ffffff;
+            --subtitle-color: #a09cb0;
+            --card-bg: linear-gradient(135deg, rgba(45, 30, 80, 0.7), rgba(30, 20, 55, 0.9));
+            --card-border: rgba(255, 255, 255, 0.08);
+            --zekr-bg: linear-gradient(135deg, rgba(35, 25, 65, 0.8), rgba(20, 15, 45, 0.95));
+            --zekr-text: #f1f0f5;
+            --header-border: rgba(255, 255, 255, 0.08);
+            --btn-bg: rgba(255, 255, 255, 0.08);
+            --btn-hover: rgba(255, 255, 255, 0.15);
+            --audio-filter: invert(100%) hue-rotate(180deg) brightness(1.5);
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f4f4f9;
+            --text-color: #2d2b38;
+            --subtitle-color: #6c6780;
+            --card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(240, 235, 255, 0.9));
+            --card-border: rgba(108, 92, 231, 0.15);
+            --zekr-bg: linear-gradient(135deg, rgba(255, 255, 255, 1), rgba(248, 246, 255, 1));
+            --zekr-text: #2d2b38;
+            --header-border: rgba(0, 0, 0, 0.08);
+            --btn-bg: rgba(108, 92, 231, 0.1);
+            --btn-hover: rgba(108, 92, 231, 0.2);
+            --audio-filter: none;
+            --shadow: 0 4px 15px rgba(108, 92, 231, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 680px;
+            padding: 25px;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+            position: relative;
+        }
+
+        /* زر تبديل الوضع */
+        .theme-toggle {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: var(--btn-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-color);
+            padding: 8px 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .theme-toggle:hover {
+            background: var(--btn-hover);
+        }
+
+        .logo {
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+
+        .subtitle {
+            color: var(--subtitle-color);
+            font-size: 0.95rem;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .menu-card {
+            display: flex;
+            align-items: center;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 20px 24px;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* تأثير إضاءة خفيفة عند المرور */
+        .menu-card::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .menu-card:hover::after {
+            opacity: 1;
+        }
+
+        .card-content {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 1.15rem;
+            font-weight: 500;
+        }
+
+        .icon {
+            font-size: 1.4rem;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 8px 25px rgba(110, 60, 180, 0.25);
+        }
+
+        .morning { border-right: 4px solid #f6b93b; }
+        .evening { border-right: 4px solid #4a69bd; }
+        .ruqyah { border-right: 4px solid #6c5ce7; }
+        .water { border-right: 4px solid #00cec9; }
+        .sounds { border-right: 4px solid #e84393; }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--header-border);
+            padding-bottom: 15px;
+        }
+
+        .page-header h2 {
+            font-size: 1.4rem;
+            color: var(--text-color);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .back-btn, .reset-btn {
+            background: var(--btn-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-color);
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-family: 'Tajawal', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .back-btn:hover, .reset-btn:hover {
+            background: var(--btn-hover);
+        }
+
+        .azkar-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-height: 75vh;
+            overflow-y: auto;
+            padding-left: 5px;
+        }
+
+        .azkar-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        .azkar-list::-webkit-scrollbar-thumb {
+            background: rgba(108, 92, 231, 0.3);
+            border-radius: 10px;
+        }
+
+        .zekr-card {
+            background: var(--zekr-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 20px;
+            transition: opacity 0.3s, transform 0.2s;
+            box-shadow: var(--shadow);
+        }
+
+        .zekr-card.completed {
+            opacity: 0.6;
+            border-color: rgba(0, 184, 148, 0.4);
+            transform: scale(0.99);
+        }
+
+        .zekr-text {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 12px;
+            color: var(--zekr-text);
+            text-align: justify;
+        }
+
+        .zekr-note {
+            font-size: 0.82rem;
+            color: #00cec9;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .zekr-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .counter-badge {
+            background-color: #6c5ce7;
+            color: #fff;
+            font-size: 0.85rem;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .counter-badge.done {
+            background-color: #00b894 !important;
+        }
+
+        .count-btn {
+            background: rgba(108, 92, 231, 0.15);
+            border: 1px solid #6c5ce7;
+            color: var(--text-color);
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .count-btn:active {
+            transform: scale(0.93);
+        }
+
+        .count-btn:hover {
+            background: rgba(108, 92, 231, 0.3);
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 10px;
+            outline: none;
+            filter: var(--audio-filter);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- الصفحة الرئيسية -->
+        <div id="home-page" class="page active">
+            <header class="header">
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <span id="theme-icon">☀️</span> <span id="theme-text">فاتح</span>
+                </button>
+                <h1 class="logo">azkarr</h1>
+                <p class="subtitle">حصن المسلم والأذكار الشاملة 💜</p>
+            </header>
+
+            <main class="menu">
+                <div class="menu-card morning" onclick="showPage('morning-page')">
+                    <div class="card-content">
+                        <span class="icon">☀️</span>
+                        <span class="title">أذكار الصباح كاملة</span>
+                    </div>
+                </div>
+
+                <div class="menu-card evening" onclick="showPage('evening-page')">
+                    <div class="card-content">
+                        <span class="icon">🌙</span>
+                        <span class="title">أذكار المساء كاملة</span>
+                    </div>
+                </div>
+
+                <div class="menu-card ruqyah" onclick="showPage('ruqyah-page')">
+                    <div class="card-content">
+                        <span class="icon">🛡️</span>
+                        <span class="title">الرقية الشرعية الشاملة</span>
+                    </div>
+                </div>
+
+                <div class="menu-card water" onclick="showPage('water-page')">
+                    <div class="card-content">
+                        <span class="icon">💧</span>
+                        <span class="title">رقية الماء الشرعية</span>
+                    </div>
+                </div>
+
+                <div class="menu-card sounds" onclick="showPage('sounds-page')">
+                    <div class="card-content">
+                        <span class="icon">🎧</span>
+                        <span class="title">قسم الصوتيات والأصوات</span>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- 1. أذكار الصباح -->
+        <div id="morning-page" class="page">
+            <div class="page-header">
+                <h2>أذكار الصباح</h2>
+                <div class="header-actions">
+                    <button class="reset-btn" onclick="resetSection('morning')">إعادة تعيين</button>
+                    <button class="back-btn" onclick="showPage('home-page')">الرئيسية ←</button>
+                </div>
+            </div>
+            <div class="azkar-list" id="morning-list">
+                <div class="zekr-card" id="card-m1">
+                    <p class="zekr-text">اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ... (آية الكرسي)</p>
+                    <div class="zekr-note">من قالها حين أصبح أُجير من الجن حتى يُمسي</div>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="m1">المتبقي: 1</span>
+                        <button class="count-btn" onclick="updateCounter('m1', 1, 'morning')">تم القراءة</button>
+                    </div>
+                </div>
+                <div class="zekr-card" id="card-m2">
+                    <p class="zekr-text">قراءة سورة الإخلاص، وسورة الفلق، وسورة الناس.</p>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="m2">المتبقي: 3</span>
+                        <button class="count-btn" onclick="updateCounter('m2', 3, 'morning')">ضغط للقراءة</button>
+                    </div>
+                </div>
+                <div class="zekr-card" id="card-m3">
+                    <p class="zekr-text">أصبحنا وأصبح الملك لله، والحمد لله، لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير.</p>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="m3">المتبقي: 1</span>
+                        <button class="count-btn" onclick="updateCounter('m3', 1, 'morning')">تم القراءة</button>
+                    </div>
+                </div>
+                <div class="zekr-card" id="card-m4">
+                    <p class="zekr-text">اللهم بك أصبحنا، وبك أمسينا، وبك نحيا وبك نموت وإليك النشور.</p>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="m4">المتبقي: 1</span>
+                        <button class="count-btn" onclick="updateCounter('m4', 1, 'morning')">تم القراءة</button>
+                    </div>
+                </div>
+                <div class="zekr-card" id="card-m5">
+                    <p class="zekr-text">اللهم أنت ربي لا إله إلا أنت، خلقتني وأنا عبدك، وأنا على عهدك ووعدك ما استطعت...</p>
+                    <div class="zekr-note">سيد الاستغفار</div>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="m5">المتبقي: 1</span>
+                        <button class="count-btn" onclick="updateCounter('m5', 1, 'morning')">تم القراءة</button>
+                    </div>
+                </div>
+                <div class="zekr-card" id="card-m6">
+                    <p class="zekr-text">اللهم إني أصبحت أشهدك وأشهد حملة عرشك وملائكتك وجميع خلقك، أنك أنت الله لا إله إلا أنت وحدك لا شريك لك.</p>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="m6">المتبقي: 4</span>
+                        <button class="count-btn" onclick="updateCounter('m6', 4, 'morning')">ضغط للقراءة</button>
+                    </div>
+                </div>
+                <div class="zekr-card" id="card-m7">
+                    <p class="zekr-text">حسبِيَ اللهُ لا إلهَ إلا هو، عليه توكلتُ وهو ربُّ العرشِ العظيمِ.</p>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="m7">المتبقي: 7</span>
+                        <button class="count-btn" onclick="updateCounter('m7', 7, 'morning')">ضغط للقراءة</button>
+                    </div>
+                </div>
+                <div class="zekr-card" id="card-m8">
+                    <p class="zekr-text">بسم الله الذي لا يضر مع اسمه شيء في الأرض ولا في السماء وهو السميع العليم.</p>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="m8">المتبقي: 3</span>
+                        <button class="count-btn" onclick="updateCounter('m8', 3, 'morning')">ضغط للقراءة</button>
+                    </div>
+                </div>
+                <div class="zekr-card" id="card-m9">
+                    <p class="zekr-text">رضيت بالله رباً، وبالإسلام ديناً، وبمحمد صلى الله عليه وسلم نبياً.</p>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="m9">المتبقي: 3</span>
+                        <button class="count-btn" onclick="updateCounter('m9', 3, 'morning')">ضغط للقراءة</button>
+                    </div>
+                </div>
+                <div class="zekr-card" id="card-m10">
+                    <p class="zekr-text">سبحان الله وبحمده، عدد خلقه، ورضا نفسه، وزنة عرشه، ومداد كلماته.</p>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="m10">المتبقي: 3</span>
+                        <button class="count-btn" onclick="updateCounter('m10', 3, 'morning')">ضغط للقراءة</button>
+                    </div>
+                </div>
+                <div class="zekr-card" id="card-m11">
+                    <p class="zekr-text">لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير.</p>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="m11">المتبقي: 10</span>
+                        <button class="count-btn" onclick="updateCounter('m11', 10, 'morning')">ضغط للقراءة</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. أذكار المساء -->
+        <div id="evening-page" class="page">
+            <div class="page-header">
+                <h2>أذكار المساء</h2>
+                <div class="header-actions">
+                    <button class="reset-btn" onclick="resetSection('evening')">إعادة تعيين</button>
+                    <button class="back-btn" onclick="showPage('home-page')">الرئيسية ←</button>
+                </div>
+            </div>
+            <div class="azkar-list">
+                <div class="zekr-card" id="card-e1">
+                    <p class="zekr-text">اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ... (آية الكرسي)</p>
+                    <div class="zekr-note">من قالها حين أمسي أُجير من الجن حتى يُصبح</div>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="e1">المتبقي: 1</span>
+                        <button class="count-btn" onclick="updateCounter('e1', 1, 'evening')">تم القراءة</button>
+                    </div>
+                </div>
+                <div class="zekr-card" id="card-e2">
+                    <p class="zekr-text">آمن الرسول بما أنزل إليه من ربه والمؤمنون كل آمن بالله وملائكته وكتبه ورسله... (خواتيم سورة البقرة)</p>
+                    <div class="zekr-note">من قرأها في ليلة كفتاه</div>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="e2">المتبقي: 1</span>
+                        <button class="count-btn" onclick="updateCounter('e2', 1, 'evening')">تم القراءة</button>
+                    </div>
+                </div>
+                <div class="zekr-card" id="card-e3">
+                    <p class="zekr-text">قراءة سورة الإخلاص، وسورة الفلق، وسورة الناس.</p>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="e3">المتبقي: 3</span>
+                        <button class="count-btn" onclick="updateCounter('e3', 3, 'evening')">ضغط للقراءة</button>
+                    </div>
+                </div>
+                <div class="zekr-card" id="card-e4">
+                    <p class="zekr-text">أمسينا وأمسى الملك لله، والحمد لله، لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير.</p>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="e4">المتبقي: 1</span>
+                        <button class="count-btn" onclick="updateCounter('e4', 1, 'evening')">تم القراءة</button>
+                    </div>
+                </div>
+                <div class="zekr-card" id="card-e5">
+                    <p class="zekr-text">اللهم بك أمسينا، وبك أصبحنا، وبك نحيا وبك نموت وإليك المصير.</p>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="e5">المتبقي: 1</span>
+                        <button class="count-btn" onclick="updateCounter('e5', 1, 'evening')">تم القراءة</button>
+                    </div>
+                </div>
+                <div class="zekr-card" id="card-e6">
+                    <p class="zekr-text">اللهم أنت ربي لا إله إلا أنت، خلقتني وأنا عبدك، وأنا على عهدك ووعدك ما استطعت...</p>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="e6">المتبقي: 1</span>
+                        <button class="count-btn" onclick="updateCounter('e6', 1, 'evening')">تم القراءة</button>
+                    </div>
+                </div>
+                <div class="zekr-card" id="card-e7">
+                    <p class="zekr-text">اللهم إني أمسيت أشهدك وأشهد حملة عرشك وملائكتك وجميع خلقك، أنك أنت الله لا إله إلا أنت وحدك لا شريك لك.</p>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="e7">المتبقي: 4</span>
+                        <button class="count-btn" onclick="updateCounter('e7', 4, 'evening')">ضغط للقراءة</button>
+                    </div>
+                </div>
+                <div class="zekr-card" id="card-e8">
+                    <p class="zekr-text">حسبِيَ اللهُ لا إلهَ إلا هو، عليه توكلتُ وهو ربُّ العرشِ العظيمِ.</p>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="e8">المتبقي: 7</span>
+                        <button class="count-btn" onclick="updateCounter('e8', 7, 'evening')">ضغط للقراءة</button>
+                    </div>
+                </div>
+                <div class="zekr-card" id="card-e9">
+                    <p class="zekr-text">بسم الله الذي لا يضر مع اسمه شيء في الأرض ولا في السماء وهو السميع العليم.</p>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="e9">المتبقي: 3</span>
+                        <button class="count-btn" onclick="updateCounter('e9', 3, 'evening')">ضغط للقراءة</button>
+                    </div>
+                </div>
+                <div class="zekr-card" id="card-e10">
+                    <p class="zekr-text">أعوذ بكلمات الله التامات من شر ما خلق.</p>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="e10">المتبقي: 3</span>
+                        <button class="count-btn" onclick="updateCounter('e10', 3, 'evening')">ضغط للقراءة</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. الرقية الشرعية -->
+        <div id="ruqyah-page" class="page">
+            <div class="page-header">
+                <h2>الرقية الشرعية الشاملة</h2>
+                <div class="header-actions">
+                    <button class="reset-btn" onclick="resetSection('ruqyah')">إعادة تعيين</button>
+                    <button class="back-btn" onclick="showPage('home-page')">الرئيسية ←</button>
+                </div>
+            </div>
+            <div class="azkar-list">
+                <div class="zekr-card" id="card-r1">
+                    <p class="zekr-text">سورة الفاتحة (بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ...)</p>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="r1">المتبقي: 3</span>
+                        <button class="count-btn" onclick="updateCounter('r1', 3, 'ruqyah')">ضغط للقراءة</button>
+                    </div>
+                </div>
+                <div class="zekr-card" id="card-r2">
+                    <p class="zekr-text">آية الكرسي (اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...)</p>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="r2">المتبقي: 3</span>
+                        <button class="count-btn" onclick="updateCounter('r2', 3, 'ruqyah')">ضغط للقراءة</button>
+                    </div>
+                </div>
+                <div class="zekr-card" id="card-r3">
+                    <p class="zekr-text">سورة الإخلاص والمعوذتين (قُلْ هُوَ اللَّهُ أَحَدٌ، والفلق، والناس)</p>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="r3">المتبقي: 3</span>
+                        <button class="count-btn" onclick="updateCounter('r3', 3, 'ruqyah')">ضغط للقراءة</button>
+                    </div>
+                </div>
+                <div class="zekr-card" id="card-r4">
+                    <p class="zekr-text">بسم الله أرقيك، من كل شيء يؤذيك، ومن شر كل نفس أو عين حاسد الله يشفيك، بسم الله أرقيك.</p>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="r4">المتبقي: 3</span>
+                        <button class="count-btn" onclick="updateCounter('r4', 3, 'ruqyah')">ضغط للقراءة</button>
+                    </div>
+                </div>
+                <div class="zekr-card" id="card-r5">
+                    <p class="zekr-text">أَسْأَلُ اللَّهَ العَظِيمَ، رَبَّ العَرْشِ العَظِيمِ أنْ يَشْفِيَكَ.</p>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="r5">المتبقي: 7</span>
+                        <button class="count-btn" onclick="updateCounter('r5', 7, 'ruqyah')">ضغط للقراءة</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. رقية الماء -->
+        <div id="water-page" class="page">
+            <div class="page-header">
+                <h2>رقية الماء الشرعية</h2>
+                <div class="header-actions">
+                    <button class="reset-btn" onclick="resetSection('water')">إعادة تعيين</button>
+                    <button class="back-btn" onclick="showPage('home-page')">الرئيسية ←</button>
+                </div>
+            </div>
+            <div class="azkar-list">
+                <div class="zekr-card">
+                    <p class="zekr-text">طريقة رقية الماء: يُحضر إناء ماء نقي، وتقرأ عليه الآيات مع النفث الخفيف بعد كل سورة أو آية للشرب أو الاغتسال.</p>
+                    <div class="zekr-note">يُفضل استخدام ماء طاهر أو زمزم.</div>
+                </div>
+                <div class="zekr-card" id="card-w1">
+                    <p class="zekr-text">1. قراءة سورة الفاتحة على الماء.</p>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="w1">المتبقي: 7</span>
+                        <button class="count-btn" onclick="updateCounter('w1', 7, 'water')">ضغط للقراءة</button>
+                    </div>
+                </div>
+                <div class="zekr-card" id="card-w2">
+                    <p class="zekr-text">2. قراءة آية الكرسي على الماء.</p>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="w2">المتبقي: 7</span>
+                        <button class="count-btn" onclick="updateCounter('w2', 7, 'water')">ضغط للقراءة</button>
+                    </div>
+                </div>
+                <div class="zekr-card" id="card-w3">
+                    <p class="zekr-text">3. قراءة خواتيم سورة البقرة (آمَنَ الرَّسُولُ...).</p>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="w3">المتبقي: 3</span>
+                        <button class="count-btn" onclick="updateCounter('w3', 3, 'water')">ضغط للقراءة</button>
+                    </div>
+                </div>
+                <div class="zekr-card" id="card-w4">
+                    <p class="zekr-text">4. قراءة الإخلاص والمعوذتين على الماء.</p>
+                    <div class="zekr-footer">
+                        <span class="counter-badge" id="w4">المتبقي: 7</span>
+                        <button class="count-btn" onclick="updateCounter('w4', 7, 'water')">ضغط للقراءة</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. قسم الصوتيات -->
+        <div id="sounds-page" class="page">
+            <div class="page-header">
+                <h2>قسم الصوتيات</h2>
+                <button class="back-btn" onclick="showPage('home-page')">الرئيسية ←</button>
+            </div>
+            <div class="azkar-list">
+                <div class="zekr-card">
+                    <p class="zekr-text">1. سورة البقرة</p>
+                    <audio controls>
+                        <source src="audio/002 (1).mp3" type="audio/mpeg">
+                        متصفحك لا يدعم تشغيل الصوت
+                    </audio>
+                </div>
+                <div class="zekr-card">
+                    <p class="zekr-text">اذكار الصباح</p>
+                    <audio controls>
+                        <source src="audio/athkar_03.mp3" type="audio/mpeg">
+                        متصفحك لا يدعم تشغيل الصوت
+                    </audio>
+                </div>
+                <div class="zekr-card">
+                    <p class="zekr-text">اذكار المساء</p>
+                    <audio controls>
+                        <source src="audio/athkar_04.mp3" type="audio/mpeg">
+                        متصفحك لا يدعم تشغيل الصوت
+                    </audio>
+                </div>
+                <div class="zekr-card">
+                    <p class="zekr-text">الرقيه الشرعيه</p>
+                    <audio controls>
+                        <source src="ruqyah.mp3 (للرقية الشرعية).mp3" type="audio/mpeg">
+                        متصفحك لا يدعم تشغيل الصوت
+                    </audio>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const initialCounters = {
+            'm1': 1, 'm2': 3, 'm3': 1, 'm4': 1, 'm5': 1, 'm6': 4, 'm7': 7, 'm8': 3, 'm9': 3, 'm10': 3, 'm11': 10,
+            'e1': 1, 'e2': 1, 'e3': 3, 'e4': 1, 'e5': 1, 'e6': 1, 'e7': 4, 'e8': 7, 'e9': 3, 'e10': 3,
+            'r1': 3, 'r2': 3, 'r3': 3, 'r4': 3, 'r5': 7,
+            'w1': 7, 'w2': 7, 'w3': 3, 'w4': 7
+        };
+
+        let counters = {};
+
+        function loadCounters() {
+            const saved = localStorage.getItem('azkarr_counters');
+            if (saved) {
+                counters = JSON.parse(saved);
+            } else {
+                counters = { ...initialCounters };
+            }
+            for (let id in counters) {
+                updateBadgeUI(id, counters[id]);
+            }
+        }
+
+        function saveCounters() {
+            localStorage.setItem('azkarr_counters', JSON.stringify(counters));
+        }
+
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function updateCounter(id, maxVal) {
+            if (counters[id] > 1) {
+                counters[id]--;
+            } else if (counters[id] === 1) {
+                counters[id] = 0;
+            }
+            saveCounters();
+            updateBadgeUI(id, counters[id]);
+        }
+
+        function updateBadgeUI(id, val) {
+            const badge = document.getElementById(id);
+            const card = document.getElementById('card-' + id);
+            if (!badge) return;
+
+            if (val > 0) {
+                badge.innerText = "المتبقي: " + val;
+                badge.classList.remove('done');
+                if (card) card.classList.remove('completed');
+            } else {
+                badge.innerText = "تمت القراءة ✓";
+                badge.classList.add('done');
+                if (card) card.classList.add('completed');
+            }
+        }
+
+        function resetSection(sectionPrefix) {
+            for (let id in initialCounters) {
+                if (id.startsWith(sectionPrefix.charAt(0))) {
+                    counters[id] = initialCounters[id];
+                    updateBadgeUI(id, counters[id]);
+                }
+            }
+            saveCounters();
+        }
+
+        // تبديل الوضع (Dark / Light)
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeIcon = document.getElementById('theme-icon');
+            const themeText = document.getElementById('theme-text');
+            
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                themeIcon.innerText = '🌙';
+                themeText.innerText = 'dark';
+                localStorage.setItem('azkarr_theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                themeIcon.innerText = '☀️';
+                themeText.innerText = 'light';
+                localStorage.setItem('azkarr_theme', 'dark');
+            }
+        }
+
+        // تحميل الوضع المحفوظ عند فتح التطبيق
+        window.onload = function() {
+            loadCounters();
+            const savedTheme = localStorage.getItem('azkarr_theme');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                if (savedTheme === 'light') {
+                    document.getElementById('theme-icon').innerText = '🌙';
+                    document.getElementById('theme-text').innerText = 'dark';
+                }
+            }
+        };
+    </script>
+</body>
+</html>
