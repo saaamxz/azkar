@@ -6,298 +6,357 @@
     <title>Azkarr - الأذكار الشاملة والرقية الشرعية</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* تعريف المتغيرات للوضع الداكن والفاتح */
-        :root {
-            --bg-color: #0d0b14;
-            --text-color: #ffffff;
-            --subtitle-color: #a09cb0;
-            --card-bg: linear-gradient(135deg, rgba(45, 30, 80, 0.7), rgba(30, 20, 55, 0.9));
-            --card-border: rgba(255, 255, 255, 0.08);
-            --zekr-bg: linear-gradient(135deg, rgba(35, 25, 65, 0.8), rgba(20, 15, 45, 0.95));
-            --zekr-text: #f1f0f5;
-            --header-border: rgba(255, 255, 255, 0.08);
-            --btn-bg: rgba(255, 255, 255, 0.08);
-            --btn-hover: rgba(255, 255, 255, 0.15);
-            --audio-filter: invert(100%) hue-rotate(180deg) brightness(1.5);
-            --shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
+        /* تعريف المتغيرات بدرجات البينك والوردى المتناسقة */
+:root {
+    --bg-color: #1a1215;
+    --text-color: #fdf5f7;
+    --subtitle-color: #c9a8b3;
+    --card-bg: linear-gradient(135deg, rgba(48, 25, 35, 0.8), rgba(31, 15, 23, 0.95));
+    --card-border: rgba(232, 142, 172, 0.15);
+    --zekr-bg: linear-gradient(135deg, rgba(40, 20, 30, 0.9), rgba(26, 12, 19, 0.98));
+    --zekr-text: #fdf5f7;
+    --header-border: rgba(232, 142, 172, 0.15);
+    --btn-bg: rgba(232, 142, 172, 0.1);
+    --btn-hover: rgba(232, 142, 172, 0.2);
+    --audio-filter: sepia(60%) hue-rotate(280deg) brightness(1.1);
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    --accent-color: #e88eac;
+    --accent-gradient: linear-gradient(135deg, #e88eac, #c26385);
+}
 
-        [data-theme="light"] {
-            --bg-color: #f4f4f9;
-            --text-color: #2d2b38;
-            --subtitle-color: #6c6780;
-            --card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(240, 235, 255, 0.9));
-            --card-border: rgba(108, 92, 231, 0.15);
-            --zekr-bg: linear-gradient(135deg, rgba(255, 255, 255, 1), rgba(248, 246, 255, 1));
-            --zekr-text: #2d2b38;
-            --header-border: rgba(0, 0, 0, 0.08);
-            --btn-bg: rgba(108, 92, 231, 0.1);
-            --btn-hover: rgba(108, 92, 231, 0.2);
-            --audio-filter: none;
-            --shadow: 0 4px 15px rgba(108, 92, 231, 0.08);
-        }
+[data-theme="light"] {
+    --bg-color: #fcf6f8;
+    --text-color: #422631;
+    --subtitle-color: #8c5d6e;
+    --card-bg: linear-gradient(135deg, #ffffff, #f7edf1);
+    --card-border: rgba(194, 99, 133, 0.18);
+    --zekr-bg: linear-gradient(135deg, #ffffff, #faed1 / 0.9, #f9f0f3);
+    --zekr-text: #422631;
+    --header-border: rgba(194, 99, 133, 0.15);
+    --btn-bg: rgba(194, 99, 133, 0.08);
+    --btn-hover: rgba(194, 99, 133, 0.15);
+    --audio-filter: none;
+    --shadow: 0 4px 15px rgba(194, 99, 133, 0.08);
+    --accent-color: #d17597;
+    --accent-gradient: linear-gradient(135deg, #e88eac, #c26385);
+}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Tajawal', sans-serif;
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Tajawal', sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-        .container {
-            width: 100%;
-            max-width: 680px;
-            padding: 25px;
-        }
+.container {
+    width: 100%;
+    max-width: 680px;
+    padding: 25px;
+}
 
-        .page {
-            display: none;
-            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+.page {
+    display: none;
+    animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
 
-        .page.active {
-            display: block;
-        }
+.page.active {
+    display: block;
+}
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(12px) scale(0.98); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
 
-        .header {
-            text-align: center;
-            margin-bottom: 35px;
-            position: relative;
-        }
+.header {
+    text-align: center;
+    margin-bottom: 35px;
+    position: relative;
+}
 
-        /* زر تبديل الوضع */
-        .theme-toggle {
-            position: absolute;
-            top: 0;
-            left: 0;
-            background: var(--btn-bg);
-            border: 1px solid var(--card-border);
-            color: var(--text-color);
-            padding: 8px 12px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .theme-toggle:hover {
-            background: var(--btn-hover);
-        }
+.theme-toggle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: var(--btn-bg);
+    border: 1px solid var(--card-border);
+    color: var(--text-color);
+    padding: 8px 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.theme-toggle:hover {
+    background: var(--btn-hover);
+}
 
-        .logo {
-            font-size: 2.8rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
-            color: var(--text-color);
-        }
+.logo {
+    font-size: 2.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+    color: var(--text-color);
+}
 
-        .subtitle {
-            color: var(--subtitle-color);
-            font-size: 0.95rem;
-        }
+.subtitle {
+    color: var(--subtitle-color);
+    font-size: 0.95rem;
+}
 
-        .menu {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
 
-        .menu-card {
-            display: flex;
-            align-items: center;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 20px 24px;
-            text-decoration: none;
-            color: var(--text-color);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: var(--shadow);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
+.menu-card {
+    display: flex;
+    align-items: center;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-right: 4px solid var(--accent-color);
+    border-radius: 16px;
+    padding: 20px 24px;
+    text-decoration: none;
+    color: var(--text-color);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
 
-        /* تأثير إضاءة خفيفة عند المرور */
-        .menu-card::after {
-            content: '';
-            position: absolute;
-            top: 0; right: 0; bottom: 0; left: 0;
-            background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .menu-card:hover::after {
-            opacity: 1;
-        }
+.menu-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 22px rgba(194, 99, 133, 0.15);
+}
 
-        .card-content {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            font-size: 1.15rem;
-            font-weight: 500;
-        }
+.card-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 1.15rem;
+    font-weight: 500;
+}
 
-        .icon {
-            font-size: 1.4rem;
-        }
+.icon {
+    font-size: 1.4rem;
+}
 
-        .menu-card:hover {
-            transform: translateY(-4px) scale(1.01);
-            box-shadow: 0 8px 25px rgba(110, 60, 180, 0.25);
-        }
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    border-bottom: 1px solid var(--header-border);
+    padding-bottom: 15px;
+}
 
-        .morning { border-right: 4px solid #f6b93b; }
-        .evening { border-right: 4px solid #4a69bd; }
-        .ruqyah { border-right: 4px solid #6c5ce7; }
-        .water { border-right: 4px solid #00cec9; }
-        .sounds { border-right: 4px solid #e84393; }
+.page-header h2 {
+    font-size: 1.4rem;
+    color: var(--text-color);
+}
 
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            border-bottom: 1px solid var(--header-border);
-            padding-bottom: 15px;
-        }
+.header-actions {
+    display: flex;
+    gap: 10px;
+}
 
-        .page-header h2 {
-            font-size: 1.4rem;
-            color: var(--text-color);
-        }
+.back-btn, .reset-btn {
+    background: var(--btn-bg);
+    border: 1px solid var(--card-border);
+    color: var(--text-color);
+    padding: 8px 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-family: 'Tajawal', sans-serif;
+    transition: all 0.2s;
+}
 
-        .header-actions {
-            display: flex;
-            gap: 10px;
-        }
+.back-btn:hover, .reset-btn:hover {
+    background: var(--btn-hover);
+}
 
-        .back-btn, .reset-btn {
-            background: var(--btn-bg);
-            border: 1px solid var(--card-border);
-            color: var(--text-color);
-            padding: 8px 14px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-family: 'Tajawal', sans-serif;
-            transition: all 0.2s;
-        }
+.azkar-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: 75vh;
+    overflow-y: auto;
+    padding-left: 5px;
+}
 
-        .back-btn:hover, .reset-btn:hover {
-            background: var(--btn-hover);
-        }
+.azkar-list::-webkit-scrollbar {
+    width: 6px;
+}
+.azkar-list::-webkit-scrollbar-thumb {
+    background: rgba(194, 99, 133, 0.3);
+    border-radius: 10px;
+}
 
-        .azkar-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            max-height: 75vh;
-            overflow-y: auto;
-            padding-left: 5px;
-        }
+.zekr-card {
+    background: var(--zekr-bg);
+    border: 1px solid var(--card-border);
+    border-right: 4px solid var(--accent-color);
+    border-radius: 16px;
+    padding: 20px;
+    transition: opacity 0.3s, transform 0.2s;
+    box-shadow: var(--shadow);
+}
 
-        .azkar-list::-webkit-scrollbar {
-            width: 6px;
-        }
-        .azkar-list::-webkit-scrollbar-thumb {
-            background: rgba(108, 92, 231, 0.3);
-            border-radius: 10px;
-        }
+.zekr-card.completed {
+    opacity: 0.6;
+    border-color: rgba(110, 150, 120, 0.4);
+    transform: scale(0.99);
+}
 
-        .zekr-card {
-            background: var(--zekr-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 14px;
-            padding: 20px;
-            transition: opacity 0.3s, transform 0.2s;
-            box-shadow: var(--shadow);
-        }
+.zekr-text {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin-bottom: 12px;
+    color: var(--zekr-text);
+    text-align: justify;
+}
 
-        .zekr-card.completed {
-            opacity: 0.6;
-            border-color: rgba(0, 184, 148, 0.4);
-            transform: scale(0.99);
-        }
+.zekr-note {
+    font-size: 0.82rem;
+    color: var(--accent-color);
+    margin-bottom: 12px;
+    font-weight: 500;
+}
 
-        .zekr-text {
-            font-size: 1.05rem;
-            line-height: 1.7;
-            margin-bottom: 12px;
-            color: var(--zekr-text);
-            text-align: justify;
-        }
+.zekr-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        .zekr-note {
-            font-size: 0.82rem;
-            color: #00cec9;
-            margin-bottom: 12px;
-            font-weight: 500;
-        }
+.counter-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    font-size: 0.85rem;
+    padding: 6px 14px;
+    border-radius: 10px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
 
-        .zekr-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+.counter-badge.done {
+    background-color: #6a9c78 !important;
+}
 
-        .counter-badge {
-            background-color: #6c5ce7;
-            color: #fff;
-            font-size: 0.85rem;
-            padding: 4px 12px;
-            border-radius: 6px;
-            font-weight: 500;
-            transition: background-color 0.3s;
-        }
+.count-btn {
+    background: var(--btn-bg);
+    border: 1px solid var(--card-border);
+    color: var(--text-color);
+    padding: 6px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
 
-        .counter-badge.done {
-            background-color: #00b894 !important;
-        }
+.count-btn:active {
+    transform: scale(0.93);
+}
 
-        .count-btn {
-            background: rgba(108, 92, 231, 0.15);
-            border: 1px solid #6c5ce7;
-            color: var(--text-color);
-            padding: 6px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.2s;
-        }
+.count-btn:hover {
+    background: var(--btn-hover);
+}
 
-        .count-btn:active {
-            transform: scale(0.93);
-        }
+audio {
+    width: 100%;
+    margin-top: 10px;
+    outline: none;
+    filter: var(--audio-filter);
+}
 
-        .count-btn:hover {
-            background: rgba(108, 92, 231, 0.3);
-        }
+.sound-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--zekr-bg);
+    border: 1px solid var(--card-border);
+    border-right: 4px solid var(--accent-color);
+    border-radius: 16px;
+    padding: 18px 22px;
+    box-shadow: var(--shadow);
+    gap: 15px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
 
-        audio {
-            width: 100%;
-            margin-top: 10px;
-            outline: none;
-            filter: var(--audio-filter);
-        }
+.sound-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(194, 99, 133, 0.12);
+}
+
+.sound-info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--zekr-text);
+}
+
+.sound-icon-box {
+    background: var(--btn-bg);
+    color: var(--accent-color);
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.anghami-btn {
+    background: var(--accent-gradient);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(194, 99, 133, 0.25);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.anghami-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+@media (max-width: 480px) {
+    .sound-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .anghami-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
     </style>
 </head>
 <body>
@@ -305,52 +364,52 @@
     <div class="container">
 
         <!-- الصفحة الرئيسية -->
-        <div id="home-page" class="page active">
-            <header class="header">
-                <button class="theme-toggle" onclick="toggleTheme()">
-                    <span id="theme-icon">☀️</span> <span id="theme-text">فاتح</span>
-                </button>
-                <h1 class="logo">azkarr</h1>
-                <p class="subtitle">حصن المسلم والأذكار الشاملة 💜</p>
-            </header>
+<div id="home-page" class="page active">
+    <header class="header">
+        <button class="theme-toggle" onclick="toggleTheme()">
+            <span id="theme-icon">☀️</span> <span id="theme-text">فاتح</span>
+        </button>
+        <h1 class="logo">azkarr</h1>
+        <p class="subtitle">حصن المسلم والأذكار الشاملة 🌸</p>
+    </header>
 
-            <main class="menu">
-                <div class="menu-card morning" onclick="showPage('morning-page')">
-                    <div class="card-content">
-                        <span class="icon">☀️</span>
-                        <span class="title">أذكار الصباح كاملة</span>
-                    </div>
-                </div>
-
-                <div class="menu-card evening" onclick="showPage('evening-page')">
-                    <div class="card-content">
-                        <span class="icon">🌙</span>
-                        <span class="title">أذكار المساء كاملة</span>
-                    </div>
-                </div>
-
-                <div class="menu-card ruqyah" onclick="showPage('ruqyah-page')">
-                    <div class="card-content">
-                        <span class="icon">🛡️</span>
-                        <span class="title">الرقية الشرعية الشاملة</span>
-                    </div>
-                </div>
-
-                <div class="menu-card water" onclick="showPage('water-page')">
-                    <div class="card-content">
-                        <span class="icon">💧</span>
-                        <span class="title">رقية الماء الشرعية</span>
-                    </div>
-                </div>
-
-                <div class="menu-card sounds" onclick="showPage('sounds-page')">
-                    <div class="card-content">
-                        <span class="icon">🎧</span>
-                        <span class="title">قسم الصوتيات والأصوات</span>
-                    </div>
-                </div>
-            </main>
+    <main class="menu">
+        <div class="menu-card morning" onclick="showPage('morning-page')">
+            <div class="card-content">
+                <span class="icon">🌅</span>
+                <span class="title">أذكار الصباح كاملة</span>
+            </div>
         </div>
+
+        <div class="menu-card evening" onclick="showPage('evening-page')">
+            <div class="card-content">
+                <span class="icon">✨</span>
+                <span class="title">أذكار المساء كاملة</span>
+            </div>
+        </div>
+
+        <div class="menu-card ruqyah" onclick="showPage('ruqyah-page')">
+            <div class="card-content">
+                <span class="icon">📖</span>
+                <span class="title">الرقية الشرعية الشاملة</span>
+            </div>
+        </div>
+
+        <div class="menu-card water" onclick="showPage('water-page')">
+            <div class="card-content">
+                <span class="icon">🫧</span>
+                <span class="title">رقية الماء الشرعية</span>
+            </div>
+        </div>
+
+        <div class="menu-card sounds" onclick="showPage('sounds-page')">
+            <div class="card-content">
+                <span class="icon">🎧</span>
+                <span class="title">قسم الصوتيات والأصوات</span>
+            </div>
+        </div>
+    </main>
+</div>
 
         <!-- 1. أذكار الصباح -->
         <div id="morning-page" class="page">
@@ -621,45 +680,47 @@
                 </div>
             </div>
         </div>
-
         <!-- 5. قسم الصوتيات -->
-        <div id="sounds-page" class="page">
-            <div class="page-header">
-                <h2>قسم الصوتيات</h2>
-                <button class="back-btn" onclick="showPage('home-page')">الرئيسية ←</button>
+<div id="sounds-page" class="page">
+    <div class="page-header">
+        <h2>قسم الصوتيات والأصوات</h2>
+        <div class="header-actions">
+            <button class="back-btn" onclick="showPage('home-page')">الرئيسية ←</button>
+        </div>
+    </div>
+    
+    <div class="azkar-list">
+        <div class="sound-card">
+            <div class="sound-info">
+                <div class="sound-icon-box">🎧</div>
+                <span>أذكار الصباح بصوت هادئ ومريح</span>
             </div>
-            <div class="azkar-list">
-                <div class="zekr-card">
-                    <p class="zekr-text">1. سورة البقرة</p>
-                    <audio controls>
-                        <source src="audio/002 (1).mp3" type="audio/mpeg">
-                        متصفحك لا يدعم تشغيل الصوت
-                    </audio>
-                </div>
-                <div class="zekr-card">
-                    <p class="zekr-text">اذكار الصباح</p>
-                    <audio controls>
-                        <source src="audio/athkar_03.mp3" type="audio/mpeg">
-                        متصفحك لا يدعم تشغيل الصوت
-                    </audio>
-                </div>
-                <div class="zekr-card">
-                    <p class="zekr-text">اذكار المساء</p>
-                    <audio controls>
-                        <source src="audio/athkar_04.mp3" type="audio/mpeg">
-                        متصفحك لا يدعم تشغيل الصوت
-                    </audio>
-                </div>
-                <div class="zekr-card">
-                    <p class="zekr-text">الرقيه الشرعيه</p>
-                    <audio controls>
-                        <source src="ruqyah.mp3 (للرقية الشرعية).mp3" type="audio/mpeg">
-                        متصفحك لا يدعم تشغيل الصوت
-                    </audio>
-                </div>
-            </div>
+            <a href="https://open.anghami.com/LE9FCeGj25b" target="_blank" class="anghami-btn">
+                استمع الآن
+            </a>
         </div>
 
+        <div class="sound-card">
+            <div class="sound-info">
+                <div class="sound-icon-box">🎧</div>
+                <span>أذكار المساء والسكينة والطمأنينة</span>
+            </div>
+            <a href="https://open.anghami.com/G9B7YANj25b" target="_blank" class="anghami-btn">
+                استمع الآن
+            </a>
+        </div>
+
+        <div class="sound-card">
+            <div class="sound-info">
+                <div class="sound-icon-box">🎧</div>
+                <span>الرقية الشرعية المبرئة (ماهر المعيقلي)</span>
+            </div>
+            <a href="https://open.anghami.com/QCIAonOj25b" target="_blank" class="anghami-btn">
+                استمع الآن
+            </a>
+        </div>
+    </div>
+</div>
     </div>
 
     <script>
